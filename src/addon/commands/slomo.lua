@@ -56,7 +56,7 @@ Noir.Started:Connect(function()
             local aliases = {}
 
             for _, alias in pairs(SlomoCommand.Aliases) do
-                table.insert(aliases, ("'?%s:lower()'"):format(alias))
+                table.insert(aliases, ("'?%s'"):format(alias))
             end
 
             -- Notify the user
