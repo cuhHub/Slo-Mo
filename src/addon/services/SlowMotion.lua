@@ -68,10 +68,12 @@ function SlowMotion:ServiceStart()
 
     -- Notify players that slow motion is active if a save was loaded into
     if Noir.AddonReason == "SaveLoad" and self.SlowMotionScale < self.MaximumScale then
-        local everyone = Noir.Services.PlayerService:GetPlayers()
-        Noir.Services.NotificationService:Warning("Slow Motion", "Slow motion is enabled! Use '?slomo' to toggle (disable) it.", everyone, self.SlowMotionScale)
+        Noir.Services.TaskService:AddTask(function() -- wait for host to load
+            local everyone = Noir.Services.PlayerService:GetPlayers()
+            Noir.Services.NotificationService:Warning("Slow Motion", "Slow motion is enabled! Use '?slomo' to toggle (disable) it.", everyone, self.SlowMotionScale)
 
-        server.announce("Slow Motion", "Slow motion is enabled! Use '?slomo' to toggle (disable) it.", -1)
+            server.announce("Slow Motion", "Slow motion is enabled! Use '?slomo' to toggle (disable) it.", -1)
+        end, 5)
     end
 end
 
