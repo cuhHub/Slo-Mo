@@ -35,7 +35,7 @@
     ?slomo [scale]
 ]]
 Noir.Started:Connect(function()
-    Noir.Services.CommandService:CreateCommand("slomo", {"slo-mo", "sl", "slowmotion"}, nil, g_savedata.IsAuthOnly, g_savedata.IsAdminOnly, false, "Sets slow motion.", function(player, message, args, hasPermission)
+    SlomoCommand = Noir.Services.CommandService:CreateCommand("slomo", {"slo-mo", "sl", "slowmotion"}, nil, g_savedata.IsAuthOnly, g_savedata.IsAdminOnly, false, "Sets slow motion.", function(player, message, args, hasPermission)
         -- Check if player has permission
         if not hasPermission then
             Noir.Services.NotificationService:Error("Command", "You do not have permission to run this command.", player)
@@ -52,8 +52,15 @@ Noir.Started:Connect(function()
                 return
             end
 
+            -- Format command aliases for later
+            local aliases = {}
+
+            for _, alias in pairs(SlomoCommand.Aliases) do
+                table.insert(aliases, ("'?%s:lower()'"):format(alias))
+            end
+
             -- Notify the user
-            Noir.Services.NotificationService:Success("Slow Motion", "You have set the slow motion scale to %.1fx.", player, scale)
+            Noir.Services.NotificationService:Success("Slow Motion", "You have set the slow motion scale to %.1fx.\n\nNote there are aliases for this command: %s", player, scale, table.concat(aliases, ", "))
 
             -- Set the scale
             SlowMotion:SetSlowMotionScale(scale)
