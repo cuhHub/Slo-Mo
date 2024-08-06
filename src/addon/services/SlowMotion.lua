@@ -105,7 +105,7 @@ end
     Resets the slow motion scale.
 ]]
 function SlowMotion:ResetSlowMotionScale()
-    self:SetSlowMotionScale(0)
+    self:SetSlowMotionScale(1)
 end
 
 --[[
