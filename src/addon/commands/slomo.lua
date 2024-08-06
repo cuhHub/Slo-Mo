@@ -48,13 +48,13 @@ Noir.Started:Connect(function()
 
             -- Not a number
             if not scale then
-                Noir.Services.NotificationService:Error("Command", "The scale must be a number between 0 and 1.\nExample: ?slomo 0.5", player)
+                Noir.Services.NotificationService:Error("Command", "The scale must be a number between %d and %d.\nExample: ?slomo 0.5", player, SlowMotion.MinimumScale, SlowMotion.MaximumScale)
                 return
             end
 
             -- Not in range
-            if scale < 0 or scale > 1 then
-                Noir.Services.NotificationService:Error("Command", "The scale must be a number between 0 and 1.\nExample: ?slomo 0.5", player)
+            if scale < SlowMotion.MinimumScale or scale > SlowMotion.MaximumScale then
+                Noir.Services.NotificationService:Error("Command", "The scale must be a number between %d and %d.\nExample: ?slomo 0.5", player, SlowMotion.MinimumScale, SlowMotion.MaximumScale)
                 return
             end
 
@@ -68,7 +68,7 @@ Noir.Started:Connect(function()
             Noir.Services.NotificationService:Success("Slow Motion", "Slow motion has been toggled.\n\nNote that you can provide a custom scale by adding a number after '?slomo', eg: '?slomo 0.7'.", player)
 
             -- Slow motion toggling
-            if SlowMotion:GetSlowMotionScale() < 1 then
+            if SlowMotion:GetSlowMotionScale() < SlowMotion.MaximumScale then
                 -- If slow motion is enabled, disable it
                 SlowMotion:ResetSlowMotionScale()
             else
