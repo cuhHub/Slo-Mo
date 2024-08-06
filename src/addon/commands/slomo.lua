@@ -52,12 +52,6 @@ Noir.Started:Connect(function()
                 return
             end
 
-            -- Not in range
-            if scale < SlowMotion.MinimumScale or scale > SlowMotion.MaximumScale then
-                Noir.Services.NotificationService:Error("Command", "The scale must be a number between %.1f and %.1f.\nExample: '?slomo 0.5'", player, SlowMotion.MinimumScale, SlowMotion.MaximumScale)
-                return
-            end
-
             -- Notify the user
             Noir.Services.NotificationService:Success("Slow Motion", "You have set the slow motion scale to %.1fx.", player, scale)
 
