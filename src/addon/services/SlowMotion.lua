@@ -37,6 +37,8 @@
 ---@class SlowMotion: NoirService
 ---@field SlowMotionScale number 0 - 1
 ---@field _MaxTPS number
+---@field MinimumScale number
+---@field MaximumScale number
 ---@field OnScaleChange NoirEvent
 SlowMotion = Noir.Services:CreateService(
     "SlowMotion"
@@ -44,6 +46,8 @@ SlowMotion = Noir.Services:CreateService(
 
 function SlowMotion:ServiceInit()
     self._MaxTPS = 62.5
+    self.MinimumScale = 1 / self._MaxTPS
+    self.MaximumScale = 1
 
     self.SlowMotionScale = self:Load("SlowMotionScale", 1)
     self:Save("SlowMotionScale", self.SlowMotionScale)
@@ -63,7 +67,7 @@ function SlowMotion:ServiceStart()
     self:SetTPS()
 
     -- Notify players that slow motion is active if a save was loaded into
-    if Noir.AddonReason == "SaveLoad" and self.SlowMotionScale < 1 then
+    if Noir.AddonReason == "SaveLoad" and self.SlowMotionScale < self.MaximumScale then
         local everyone = Noir.Services.PlayerService:GetPlayers()
         Noir.Services.NotificationService:Warning("Slow Motion", "Slow motion is enabled! Use '?slomo' to toggle (disable) it.", everyone, self.SlowMotionScale)
 
@@ -83,7 +87,7 @@ end
 ]]
 function SlowMotion:SetTPS()
     local requiredTPS = self:_CalculateTPSFromSlowMotionScale()
-    Noir.Services.TPSService:SetTPS(requiredTPS <= 0 and 0.001 or requiredTPS) -- if TPS is 0, the TPSService will disable the slow motion stuffs
+    Noir.Services.TPSService:SetTPS(requiredTPS)
 end
 
 --[[
@@ -93,7 +97,7 @@ end
 function SlowMotion:SetSlowMotionScale(scale)
     Noir.TypeChecking:Assert("SlowMotion:SetSlowMotionScale()", "scale", scale, "number")
 
-    self.SlowMotionScale = Noir.Libraries.Number:Clamp(scale, 0, 1)
+    self.SlowMotionScale = Noir.Libraries.Number:Clamp(scale, self.MinimumScale, self.MaximumScale)
     self:Save("SlowMotionScale", self.SlowMotionScale)
 
     self:SetTPS()
@@ -105,7 +109,7 @@ end
     Resets the slow motion scale.
 ]]
 function SlowMotion:ResetSlowMotionScale()
-    self:SetSlowMotionScale(1)
+    self:SetSlowMotionScale(self.MaximumScale)
 end
 
 --[[
