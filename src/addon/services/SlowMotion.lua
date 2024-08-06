@@ -60,7 +60,7 @@ function SlowMotion:ServiceStart()
     ---@param new number
     self.OnScaleChange:Connect(function(new)
         local everyone = Noir.Services.PlayerService:GetPlayers()
-        Noir.Services.NotificationService:Info("Slow Motion", "Speed has been set to %.1fx.", everyone, new)
+        Noir.Services.NotificationService:Info("Slow Motion", "The slow motion scale has been set to %.1fx.", everyone, new)
     end)
 
     -- Set slow motion (for persistence)
