@@ -48,13 +48,13 @@ Noir.Started:Connect(function()
 
             -- Not a number
             if not scale then
-                Noir.Services.NotificationService:Error("Command", "The scale must be a number between %d and %d.\nExample: ?slomo 0.5", player, SlowMotion.MinimumScale, SlowMotion.MaximumScale)
+                Noir.Services.NotificationService:Error("Command", "The scale must be a number between %.1f and %.1f.\nExample: '?slomo 0.5'", player, SlowMotion.MinimumScale, SlowMotion.MaximumScale)
                 return
             end
 
             -- Not in range
             if scale < SlowMotion.MinimumScale or scale > SlowMotion.MaximumScale then
-                Noir.Services.NotificationService:Error("Command", "The scale must be a number between %d and %d.\nExample: ?slomo 0.5", player, SlowMotion.MinimumScale, SlowMotion.MaximumScale)
+                Noir.Services.NotificationService:Error("Command", "The scale must be a number between %.1f and %.1f.\nExample: '?slomo 0.5'", player, SlowMotion.MinimumScale, SlowMotion.MaximumScale)
                 return
             end
 
