@@ -1,0 +1,9 @@
+{
+    "order" : [
+        "classes",
+        "libraries",
+        "services",
+        "commands",
+        "main.lua"
+    ]
+}
